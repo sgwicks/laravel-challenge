@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ Route::prefix('users')
     ->group(function () {
         Route::get('{email}/tickets', [UserController::class, 'tickets'])->name('tickets');
     });
+
+Route::get('stats', [StatsController::class, 'index'])->name('stats.index');
