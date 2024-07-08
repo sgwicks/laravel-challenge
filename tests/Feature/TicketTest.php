@@ -58,5 +58,7 @@ class TicketTest extends TestCase
         ]);
 
         $this->assertModelExists($ticket);
+        $this->assertEquals($user->name, $ticket->user->name);
+        $this->assertEquals($user->email, $ticket->user->email);
     }
 }
