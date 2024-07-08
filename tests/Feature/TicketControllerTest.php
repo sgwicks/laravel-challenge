@@ -33,6 +33,7 @@ class TicketControllerTest extends TestCase
             $json->has('data', 10, fn (AssertableJson $json) =>
                 $json
                     ->whereAllType([
+                        'id' => 'integer',
                         'subject' => 'string',
                         'content' => 'string',
                         'created_at' => 'string',
@@ -40,7 +41,7 @@ class TicketControllerTest extends TestCase
                         'user.name' => 'string',
                         'user.email' => 'string'
                     ])
-            )
+            )->etc()
         );
     }
 
@@ -54,7 +55,36 @@ class TicketControllerTest extends TestCase
         $response = $this->get('/tickets/open');
 
         $response->assertJson(fn (AssertableJson $json) => 
-            $json->has('data', 8)
+            $json->has('data', 8)->etc()
+        );
+    }
+
+    public function testPaginatesResults(): void
+    {
+        Ticket::factory(20)->create();
+
+        $response = $this->get('/tickets/open');
+
+        $response->assertJson(fn (AssertableJson $json) => 
+            $json
+                ->has('data', 10)
+                ->has('links')
+                ->has('meta')
+        );
+    }
+
+    public function testSecondPage(): void
+    {
+        Ticket::factory(20)->create();
+
+        $response = $this->get('/tickets/open?page=2');
+
+        $response->assertJson(fn (AssertableJson $json) => 
+            $json
+                ->has('data', 10, fn (AssertableJson $json) =>
+                    $json->where('id', 11)->etc()
+                )
+                ->etc()
         );
     }
 }

@@ -9,7 +9,7 @@ class TicketController extends Controller
 {
     public function open()
     {
-        $tickets = Ticket::where('status', false)->get();
+        $tickets = Ticket::where('status', false)->paginate(10);
 
         return TicketResource::collection($tickets);
     }
