@@ -8,4 +8,5 @@ Route::prefix('tickets')
     ->name('tickets')
     ->group(function () {
     Route::get('/open', [TicketController::class, 'open'])->name('open');
+    Route::get('/closed', [TicketController::class, 'closed'])->name('closed');
 });
