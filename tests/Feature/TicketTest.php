@@ -47,4 +47,16 @@ class TicketTest extends TestCase
         $this->assertFalse($ticket->status);
         $this->assertInstanceOf(User::class, $ticket->user);
     }
+
+    public function testCreatingTicketOnUser(): void
+    {
+        $user = User::factory()->create();
+
+        $ticket = $user->tickets()->create([
+            'subject' => 'User Test Ticket',
+            'content' => 'Create a ticket from a user'
+        ]);
+
+        $this->assertModelExists($ticket);
+    }
 }
