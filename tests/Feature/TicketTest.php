@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\User;
 use App\Models\Ticket;
 use Database\Seeders\UserSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {
@@ -60,5 +60,6 @@ class TicketTest extends TestCase
         $this->assertModelExists($ticket);
         $this->assertEquals($user->name, $ticket->user->name);
         $this->assertEquals($user->email, $ticket->user->email);
+        $this->assertEquals($user->id, $ticket->user_id);
     }
 }
