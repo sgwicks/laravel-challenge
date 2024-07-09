@@ -57,15 +57,15 @@ class StatsControllerTest extends TestCase
 
     public function testReturnsMostProlificUser(): void
     {
-        $user = User::firstWhere('email', 'test@example.com');
+        $user = User::firstWhere('id', 5);
 
-        Ticket::factory(9)->create(['user_id' => $user->id]);
+        Ticket::factory(9)->create(['user_id' => 5]);
         Ticket::factory(7)->create();
 
         $response = $this->get('/stats');
 
         $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('data.user_most_submitted', 'test@example.com')->etc()
+            $json->where('data.user_most_submitted', $user->email)->etc()
         );
     }
 
